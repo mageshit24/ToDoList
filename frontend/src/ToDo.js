@@ -3,46 +3,47 @@ import { useEffect, useState } from "react";
 export default function Todo() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [deadline, setDeadline] = useState(""); // New state for deadline
+    const [deadline, setDeadline] = useState("");
     const [todos, setTodos] = useState([]);
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [editId, setEditId] = useState(-1);
     const [editTitle, setEditTitle] = useState("");
     const [editDescription, setEditDescription] = useState("");
-    const [editDeadline, setEditDeadline] = useState(""); // New state for editing deadline
+    const [editDeadline, setEditDeadline] = useState("");
 
     const apiUrl = "https://todolist-12qa.onrender.com/";
 
     const handleSubmit = () => {
         setError("");
-        // Check inputs
         if (title.trim() !== '' && description.trim() !== '' && deadline) {
-            // API call
+            if (isNaN(Date.parse(deadline))) {
+                setError("Invalid deadline format");
+                return;
+            }
+
             fetch(apiUrl + "todos", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ title, description, deadline }) // Include deadline
+                body: JSON.stringify({ title, description, deadline })
             }).then((res) => {
                 if (res.ok) {
-                    // Add Item to list
-                    setTodos([...todos, { title, description, deadline }]);
+                    getItems(); // Reload items from server after adding
                     setMessage("Item added successfully.");
                     setTitle("");
                     setDescription("");
-                    setDeadline(""); // Reset deadline
-                    setTimeout(() => {
-                        setMessage("");
-                    }, 3000);
+                    setDeadline("");
+                    setTimeout(() => setMessage(""), 3000);
                 } else {
-                    // Set Error
                     setError("Unable to create Todo item.");
                 }
             }).catch(() => {
                 setError("Unable to create Todo item.");
             });
+        } else {
+            setError("All fields are required.");
         }
     }
 
@@ -54,7 +55,15 @@ export default function Todo() {
         fetch(apiUrl + "todos")
             .then((res) => res.json())
             .then((res) => {
-                setTodos(res);
+                if (Array.isArray(res)) {
+                    setTodos(res);
+                } else {
+                    console.error("Invalid todos response", res);
+                }
+            })
+            .catch(err => {
+                console.error("Failed to fetch todos:", err);
+                setError("Failed to load todos.");
             });
     }
 
@@ -62,43 +71,37 @@ export default function Todo() {
         setEditId(item._id);
         setEditTitle(item.title);
         setEditDescription(item.description);
-        setEditDeadline(item.deadline); // Set the deadline for editing
+        setEditDeadline(item.deadline ? item.deadline.slice(0, 16) : ""); // format for datetime-local
     }
 
     const handleUpdate = () => {
         setError("");
-        // Check inputs
         if (editTitle.trim() !== '' && editDescription.trim() !== '' && editDeadline) {
-            // API call
+            if (isNaN(Date.parse(editDeadline))) {
+                setError("Invalid deadline format");
+                return;
+            }
+
             fetch(apiUrl + "todos/" + editId, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ title: editTitle, description: editDescription, deadline: editDeadline }) // Include deadline
+                body: JSON.stringify({
+                    title: editTitle,
+                    description: editDescription,
+                    deadline: editDeadline
+                })
             }).then((res) => {
                 if (res.ok) {
-                    // Update Item to list
-                    const updatedTodos = todos.map((item) => {
-                        if (item._id === editId) {
-                            item.title = editTitle;
-                            item.description = editDescription;
-                            item.deadline = editDeadline; // Update deadline
-                        }
-                        return item;
-                    });
-                    setTodos(updatedTodos);
+                    getItems();
                     setMessage("Item updated successfully.");
+                    setEditId(-1);
                     setEditTitle("");
                     setEditDescription("");
-                    setEditDeadline(""); // Reset edit deadline
-                    setTimeout(() => {
-                        setMessage("");
-                    }, 3000);
-
-                    setEditId(-1);
+                    setEditDeadline("");
+                    setTimeout(() => setMessage(""), 3000);
                 } else {
-                    // Set Error
                     setError("Unable to update Todo item.");
                 }
             }).catch(() => {
@@ -115,11 +118,12 @@ export default function Todo() {
         if (window.confirm('Are you sure want to delete?')) {
             fetch(apiUrl + 'todos/' + id, {
                 method: "DELETE"
-            })
-                .then(() => {
-                    const updatedTodos = todos.filter((item) => item._id !== id);
-                    setTodos(updatedTodos);
-                });
+            }).then(() => {
+                const updatedTodos = todos.filter((item) => item._id !== id);
+                setTodos(updatedTodos);
+            }).catch(() => {
+                setError("Unable to delete item.");
+            });
         }
     }
 
@@ -135,7 +139,7 @@ export default function Todo() {
             <div className="form-group d-flex gap-2">
                 <input placeholder="Title" onChange={(e) => setTitle(e.target.value)} value={title} className="form-control" type="text" />
                 <input placeholder="Description" onChange={(e) => setDescription(e.target.value)} value={description} className="form-control" type="text" />
-                <input type="datetime-local" onChange={(e) => setDeadline(e.target.value)} value={deadline} className="form-control" /> {/* Deadline input */}
+                <input type="datetime-local" onChange={(e) => setDeadline(e.target.value)} value={deadline} className="form-control" />
                 <button className="btn btn-dark" onClick={handleSubmit}>Submit</button>
             </div>
             {error && <p className="text-danger">{error}</p>}
@@ -152,22 +156,28 @@ export default function Todo() {
                                         editId === -1 || editId !== item._id ? <>
                                             <span className="fw-bold">{item.title}</span>
                                             <span>{item.description}</span>
-                                            <span>Deadline: {new Date(item.deadline).toLocaleString()}</span> {/* Display the deadline */}
+                                            <span>
+                                                Deadline: {
+                                                    item.deadline
+                                                        ? new Date(item.deadline).toLocaleString()
+                                                        : "No deadline"
+                                                }
+                                            </span>
                                         </> : <>
                                             <div className="form-group d-flex gap-2">
                                                 <input placeholder="Title" onChange={(e) => setEditTitle(e.target.value)} value={editTitle} className="form-control" type="text" />
                                                 <input placeholder="Description" onChange={(e) => setEditDescription(e.target.value)} value={editDescription} className="form-control" type="text" />
-                                                <input type="datetime-local" onChange={(e) => setEditDeadline(e.target.value)} value={editDeadline} className="form-control" /> {/* Edit deadline input */}
+                                                <input type="datetime-local" onChange={(e) => setEditDeadline(e.target.value)} value={editDeadline} className="form-control" />
                                             </div>
                                         </>
                                     }
                                 </div>
                                 <div className="d-flex gap-2">
-                                    {editId === -1 || editId !== item._id ? 
-                                        <button className="btn btn-warning" onClick={() => handleEdit(item)}>Edit</button> : 
+                                    {editId === -1 || editId !== item._id ?
+                                        <button className="btn btn-warning" onClick={() => handleEdit(item)}>Edit</button> :
                                         <button onClick={handleUpdate} className="btn btn-warning">Update</button>}
-                                    {editId === -1 || editId !== item._id ? 
-                                        <button className="btn btn-danger" onClick={() => handleDelete(item._id)}>Delete</button> : 
+                                    {editId === -1 || editId !== item._id ?
+                                        <button className="btn btn-danger" onClick={() => handleDelete(item._id)}>Delete</button> :
                                         <button className="btn btn-danger" onClick={handleEditCancel}>Cancel</button>}
                                 </div>
                             </li>
