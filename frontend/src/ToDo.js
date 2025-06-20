@@ -12,7 +12,7 @@ export default function Todo() {
     const [editDescription, setEditDescription] = useState("");
     const [editDeadline, setEditDeadline] = useState(""); // New state for editing deadline
 
-    const apiUrl = "https://todolist-12qa.onrender.com";
+    const apiUrl = "https://todolist-12qa.onrender.com/";
 
     const handleSubmit = () => {
         setError("");
