@@ -35,7 +35,7 @@ export default function Todo() {
                     setTitle("");
                     setDescription("");
                     setDeadline("");
-                    setTimeout(() => setMessage(""), 3000);
+                    setTimeout(() => setMessage(""), 10000);
                 } else {
                     setError("Unable to create Todo item.");
                 }
