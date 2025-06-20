@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Connect to MongoDB
+// MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -16,7 +16,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Failed to connect to MongoDB', err));
 
-// Schema
+// Todo Schema
 const todoSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -35,7 +35,7 @@ const todoSchema = new mongoose.Schema({
 
 const todoModel = mongoose.model('Todo', todoSchema);
 
-// POST - Create a new todo
+// Create Todo
 app.post('/todos', async (req, res) => {
   const { title, description, deadline } = req.body;
   try {
@@ -43,12 +43,12 @@ app.post('/todos', async (req, res) => {
     await newTodo.save();
     res.status(201).json(newTodo);
   } catch (error) {
-    console.log(error);
+    console.error("POST /todos error:", error);
     res.status(500).json({ message: error.message });
   }
 });
 
-// PUT - Update an existing todo
+// Update Todo
 app.put("/todos/:id", async (req, res) => {
   const { title, description, deadline, completed } = req.body;
   const id = req.params.id;
@@ -59,51 +59,55 @@ app.put("/todos/:id", async (req, res) => {
       { new: true }
     );
     if (!updatedTodo) {
-      return res.status(404).json({ message: "Can't find ToDo work." });
+      return res.status(404).json({ message: "Todo not found." });
     }
     res.json(updatedTodo);
   } catch (error) {
-    console.log(error);
+    console.error("PUT /todos/:id error:", error);
     res.status(500).json({ message: error.message });
   }
 });
 
-// GET - Fetch all todos
+// Get All Todos with Overdue Status
 app.get('/todos', async (req, res) => {
   try {
     const todos = await todoModel.find().sort({ deadline: 1 });
 
-    if (!Array.isArray(todos)) {
-      return res.status(500).json({ message: "Todos is not an array." });
-    }
-
     const currentTime = new Date();
-    const todosWithOverdueStatus = todos.map(todo => ({
-      ...todo._doc,
-      isOverdue: new Date(todo.deadline) < currentTime && !todo.completed
-    }));
+    const todosWithOverdueStatus = todos.map(todo => {
+      let deadlineDate = new Date(todo.deadline);
+      let completed = todo.completed ?? false; // fallback in case it's undefined
+
+      return {
+        ...todo._doc,
+        isOverdue: deadlineDate < currentTime && !completed
+      };
+    });
 
     res.json(todosWithOverdueStatus);
   } catch (error) {
-    console.log("GET /todos error:", error);
+    console.error("GET /todos error:", error);
     res.status(500).json({ message: error.message });
   }
 });
 
-// DELETE - Delete a todo
+// Delete Todo
 app.delete('/todos/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    await todoModel.findByIdAndDelete(id);
+    const result = await todoModel.findByIdAndDelete(id);
+    if (!result) {
+      return res.status(404).json({ message: "Todo not found for deletion." });
+    }
     res.status(204).end();
   } catch (error) {
-    console.log(error);
+    console.error("DELETE /todos/:id error:", error);
     res.status(500).json({ message: error.message });
   }
 });
 
-// Start server
+// Server Listener
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
-  console.log("Server is listening to port " + port);
+  console.log("🚀 Server running on port " + port);
 });
