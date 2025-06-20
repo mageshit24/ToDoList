@@ -1,4 +1,5 @@
 //Express
+require('dotenv').config;
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -12,7 +13,7 @@ app.use(cors());
 //let todos = [];
 
 //Connecting MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/ToDoList')
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Failed to connect to MongoDB', err));
 
@@ -98,7 +99,7 @@ app.delete('/todos/:id', async (req,res) => {
 })
 
 //Start the server
-const port = 8000;
+const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log("Server is listening to port "+port);
 })
