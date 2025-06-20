@@ -1,5 +1,5 @@
 //Express
-require('dotenv').config;
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -54,7 +54,7 @@ app.put("/todos/:id", async (req,res) => {
         const updatedTodo = await todoModel.findByIdAndUpdate(
             id,
             {
-                title, description
+                title, description, deadline
             },
             {
                 new: true
