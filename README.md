@@ -106,7 +106,7 @@ The frontend will run on **http://localhost:3000**.
 
 | Task List | Add / Edit Task |
 |---|---|
-| ![Task List](screenshots/task-list.png) | ![Add Task](screenshots/add-task.png) |
+| <img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/5d390037-2167-4257-ad79-d68d087fa0ea" /> | <img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/de35ca1c-9a7f-401e-9d17-14a0b17ff073" /> |
 
 ---
 
