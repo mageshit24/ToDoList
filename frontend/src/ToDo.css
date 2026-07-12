@@ -1,0 +1,455 @@
+/**
+ * Styles for the <Todo /> component (ToDo.js).
+ * Prefixed with "th-" (ToDo) throughout to avoid clashing with any global
+ * class names, since this project has no CSS-modules/scoping set up.
+ * Relies on the color/spacing/shadow variables defined in index.css.
+ */
+
+/* ---------- Header ---------- */
+.th-header {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 28px;
+}
+
+.th-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+}
+
+.th-header h1 {
+    margin: 0 0 6px;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.th-header p {
+    margin: 0;
+    font-size: 15px;
+    opacity: 0.85;
+}
+
+/* ---------- Toast ---------- */
+.th-toast {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 50;
+    background: var(--surface);
+    color: var(--success);
+    border: 1px solid var(--success-bg);
+    box-shadow: var(--shadow-lg);
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: th-slide-in 0.25s ease-out;
+}
+
+@keyframes th-slide-in {
+    from {
+        transform: translateY(-12px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.th-error-banner {
+    background: var(--danger-bg);
+    color: var(--danger);
+    border: 1px solid #fecaca;
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ---------- Cards ---------- */
+.th-card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.th-card h3 {
+    margin: 0 0 16px;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+/* ---------- Form ---------- */
+.th-form-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1.4fr 1fr;
+    gap: 12px;
+}
+
+@media (max-width: 640px) {
+    .th-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.th-field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.th-input {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--surface-muted);
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.th-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    background: #fff;
+}
+
+.th-input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.th-submit-row {
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.th-btn {
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.1s, box-shadow 0.15s, background 0.15s;
+}
+
+.th-btn:active {
+    transform: scale(0.97);
+}
+
+.th-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.th-btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+}
+
+.th-btn-primary:hover:not(:disabled) {
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.45);
+}
+
+.th-btn-ghost {
+    background: var(--surface-muted);
+    color: var(--text);
+    border: 1.5px solid var(--border);
+}
+
+.th-btn-ghost:hover:not(:disabled) {
+    background: #eeecfb;
+}
+
+.th-btn-danger {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+.th-btn-danger:hover:not(:disabled) {
+    background: #fecaca;
+}
+
+.th-btn-icon {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ---------- Stats ---------- */
+.th-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.th-stat {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: var(--radius-sm);
+    padding: 12px 10px;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.th-stat .th-stat-num {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.1;
+}
+
+.th-stat .th-stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* ---------- Filters ---------- */
+.th-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.th-filter-btn {
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.th-filter-btn:hover {
+    background: rgba(255, 255, 255, 0.24);
+}
+
+.th-filter-btn.active {
+    background: #fff;
+    color: var(--primary-dark);
+    border-color: #fff;
+}
+
+/* ---------- List ---------- */
+.th-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.th-item {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    animation: th-fade-in 0.2s ease-out;
+    transition: box-shadow 0.15s;
+}
+
+.th-item:hover {
+    box-shadow: 0 4px 16px rgba(33, 31, 54, 0.12);
+}
+
+.th-item.completed {
+    opacity: 0.62;
+}
+
+@keyframes th-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Custom round checkbox: appearance:none strips native styling so we can
+   draw our own circle + checkmark instead of the browser's default square box. */
+.th-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border-radius: 999px;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    margin-top: 2px;
+    display: grid;
+    place-content: center;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.th-checkbox:checked {
+    background: var(--success);
+    border-color: var(--success);
+}
+
+.th-checkbox:checked::after {
+    content: '✓';
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.th-item-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.th-item-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin: 0 0 4px;
+    word-break: break-word;
+}
+
+.th-item.completed .th-item-title {
+    text-decoration: line-through;
+}
+
+.th-item-desc {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin: 0 0 8px;
+    word-break: break-word;
+}
+
+.th-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.th-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 999px;
+}
+
+.th-badge-deadline {
+    background: var(--surface-muted);
+    color: var(--text-muted);
+}
+
+.th-badge-overdue {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+.th-badge-done {
+    background: var(--success-bg);
+    color: var(--success);
+}
+
+.th-item-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.th-edit-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ---------- Empty / loading ---------- */
+.th-empty {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 40px 20px;
+}
+
+.th-empty .th-empty-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.th-empty p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.th-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Animated gradient sweeping left-to-right to suggest "content is loading",
+   shown in place of the list while the initial GET /todos is in flight. */
+.th-skeleton-item {
+    height: 64px;
+    border-radius: var(--radius);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.35) 25%, rgba(255, 255, 255, 0.55) 37%, rgba(255, 255, 255, 0.35) 63%);
+    background-size: 400% 100%;
+    animation: th-shimmer 1.4s ease infinite;
+}
+
+@keyframes th-shimmer {
+    0% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0 50%;
+    }
+}

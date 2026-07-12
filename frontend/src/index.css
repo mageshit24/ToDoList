@@ -1,8 +1,65 @@
+/* Global styles + design tokens (CSS custom properties).
+   Loaded once at the app root (see index.js) so every component below can
+   reference these variables — keeps colors/spacing/shadows consistent and
+   makes future re-theming a one-file change instead of a find-and-replace. */
+
+/* Google-hosted "Inter" font — a clean, modern UI typeface, loaded once here
+   instead of self-hosting to keep the project simple. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Page background gradient */
+  --bg-start: #6366f1;
+  --bg-end: #8b5cf6;
+
+  /* Surfaces */
+  --surface: #ffffff;
+  /* cards, inputs-on-focus */
+  --surface-muted: #f8f7ff;
+  /* subtle fill for inputs, deadline badges */
+  --border: #e6e4f5;
+
+  /* Text */
+  --text: #211f36;
+  --text-muted: #6b6885;
+
+  /* Brand / actions */
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+
+  /* Status colors (each with a light "-bg" variant for badges/banners) */
+  --success: #16a34a;
+  --success-bg: #dcfce7;
+  --danger: #dc2626;
+  --danger-bg: #fee2e2;
+  --warning: #d97706;
+  --warning-bg: #fef3c7;
+
+  /* Shape */
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 20px;
+
+  /* Elevation */
+  --shadow: 0 1px 3px rgba(33, 31, 54, 0.08), 0 8px 24px rgba(33, 31, 54, 0.06);
+  --shadow-lg: 0 20px 45px rgba(76, 29, 149, 0.18);
+}
+
+/* Use border-box everywhere so padding/border never blow out declared widths. */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', sans-serif;
+  color: var(--text);
+  /* Fixed gradient backdrop for the whole app — attachment: fixed keeps it
+     from scrolling with the page content. */
+  background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -10,4 +67,9 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+button {
+  font-family: inherit;
+  /* buttons don't inherit font-family by default in most browsers */
 }
