@@ -4,8 +4,7 @@
 
 ### A clean, full-stack task manager built with the MERN stack
 
-[![Live Demo](https://img.shields.io/badge/demo-live-6366f1?style=for-the-badge)](https://your-site-name.netlify.app)
-[![API Status](https://img.shields.io/badge/API-online-16a34a?style=for-the-badge)](https://your-backend.onrender.com/health)
+[![Live Demo](https://img.shields.io/badge/demo-live-6366f1?style=for-the-badge)](https://todolist-web-mern-project.netlify.app/)
 [![License: ISC](https://img.shields.io/badge/license-ISC-blue?style=for-the-badge)](#-license)
 
 ![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
