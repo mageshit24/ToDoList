@@ -15,7 +15,7 @@
 ![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white)
 ![Render](https://img.shields.io/badge/Render-46E3B7?style=flat-square&logo=render&logoColor=white)
 
-[Live Demo](https://your-site-name.netlify.app) · [Report Bug](../../issues) · [Request Feature](../../issues)
+[Live Demo]([https://your-site-name.netlify.app](https://todolist-web-mern-project.netlify.app/)) · [Report Bug](../../issues) · [Request Feature](../../issues)
 
 </div>
 
@@ -112,10 +112,9 @@ cd ToDoList
 ```bash
 cd backend
 npm install
-cp .env.example .env
 ```
 
-Fill in `backend/.env`:
+Create and fill in `backend/.env`:
 
 ```env
 MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
@@ -168,22 +167,22 @@ Opens on `http://localhost:3000`.
 
 ## 🔒 Security
 
-- **Helmet** — standard HTTP security headers (CSP, HSTS, no-sniff)
-- **Rate limiting** — 300 requests / 15 min per IP on `/todos`
-- **Input sanitization** — `express-mongo-sanitize` blocks NoSQL operator injection; explicit type/length checks on all inputs
-- **CORS allowlisting** — fails closed in production if `ALLOWED_ORIGINS` isn't set
-- **No secrets in git** — `.env` files are gitignored; `.env.example` provides the template
+- **Helmet** - standard HTTP security headers (CSP, HSTS, no-sniff)
+- **Rate limiting** - 300 requests / 15 min per IP on `/todos`
+- **Input sanitization** - `express-mongo-sanitize` blocks NoSQL operator injection; explicit type/length checks on all inputs
+- **CORS allowlisting** - fails closed in production if `ALLOWED_ORIGINS` isn't set
+- **No secrets in git** - `.env` files are gitignored; `.env.example` provides the template
 
 ## ☁️ Deployment
 
-**Backend (Render)** — environment variables required:
+**Backend (Render)** - environment variables required:
 ```
 MONGODB_URI=<your connection string>
 NODE_ENV=production
 ALLOWED_ORIGINS=https://your-site-name.netlify.app
 ```
 
-**Frontend (Netlify)** — environment variable required:
+**Frontend (Netlify)** - environment variable required:
 ```
 REACT_APP_API_URL=https://your-backend.onrender.com
 ```
