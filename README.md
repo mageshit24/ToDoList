@@ -25,7 +25,7 @@
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/b2534f15-00d1-4b83-8d97-98b7b1279831" alt="ToDoList dashboard showing task list, stats, and filters" width="800"/>
-  <p><em>Main dashboard — stats bar, filter tabs, and task list</em></p>
+  <p><em>Main dashboard - stats bar, filter tabs, and task list</em></p>
 </div>
 
 <table>
@@ -58,7 +58,7 @@
 - ✅ One-click complete/active toggle with optimistic UI updates
 - ⏰ Automatic overdue detection, computed server-side in real time
 - 🔍 Filter by All / Active / Completed / Overdue
-- 📊 Live task stats — total, active, completed, overdue
+- 📊 Live task stats - total, active, completed, overdue
 - 💨 Smooth loading skeletons, toasts, and empty states
 - 📱 Fully responsive gradient-based design, no UI framework dependency
 
