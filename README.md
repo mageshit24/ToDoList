@@ -24,34 +24,33 @@
 ## 📸 Preview
 
 <div align="center">
-  <img src="./screenshots/dashboard.png" alt="ToDoList dashboard showing task list, stats, and filters" width="800"/>
+  <img src="https://github.com/user-attachments/assets/b2534f15-00d1-4b83-8d97-98b7b1279831" alt="ToDoList dashboard showing task list, stats, and filters" width="800"/>
   <p><em>Main dashboard — stats bar, filter tabs, and task list</em></p>
 </div>
 
 <table>
   <tr>
-    <td width="50%">
-      <img src="./screenshots/add-task.png" alt="Add task form"/>
-      <p align="center"><em>Adding a new task</em></p>
+    <td width="50%" align="center">
+      <img src="https://github.com/user-attachments/assets/873c32c6-6011-488c-a792-fab1856d5fbb" alt="Add task form" width="100%"/>
+      <p><em>Adding a new task</em></p>
     </td>
-    <td width="50%">
-      <img src="./screenshots/overdue.png" alt="Overdue task badge"/>
-      <p align="center"><em>Overdue detection in action</em></p>
+    <td width="50%" align="center">
+      <img src="https://github.com/user-attachments/assets/cf8926a4-4a69-49b0-ad63-a35b13b6d44b" alt="Overdue task badge" width="100%"/>
+      <p><em>Overdue detection in action</em></p>
     </td>
   </tr>
   <tr>
-    <td width="50%">
-      <img src="./screenshots/edit-mode.png" alt="Inline task editing"/>
-      <p align="center"><em>Inline editing</em></p>
+    <td width="50%" align="center">
+      <img src="https://github.com/user-attachments/assets/e0bd11b9-7db1-4249-a72b-7c0027c16296" alt="Inline task editing" width="100%"/>
+      <p><em>Inline editing</em></p>
     </td>
-    <td width="50%">
-      <img src="./screenshots/mobile.png" alt="Mobile responsive view" width="260"/>
-      <p align="center"><em>Mobile view</em></p>
+    <td width="50%" align="center">
+      <img src="https://github.com/user-attachments/assets/110a6b53-570d-4957-bc73-2a01014fb026" alt="Mobile responsive view" width="220"/>
+      <p><em>Mobile view</em></p>
     </td>
   </tr>
 </table>
-
----
+```
 
 ## ✨ Features
 
