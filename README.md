@@ -15,7 +15,7 @@
 ![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white)
 ![Render](https://img.shields.io/badge/Render-46E3B7?style=flat-square&logo=render&logoColor=white)
 
-[Live Demo]([https://your-site-name.netlify.app](https://todolist-web-mern-project.netlify.app/)) · [Report Bug](../../issues) · [Request Feature](../../issues)
+[Live Demo](https://todolist-web-mern-project.netlify.app/) · [Report Bug](../../issues) · [Request Feature](../../issues)
 
 </div>
 
