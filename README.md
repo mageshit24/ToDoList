@@ -59,7 +59,7 @@
 - ✅ One-click complete/active toggle with optimistic UI updates
 - ⏰ Automatic overdue detection, computed server-side in real time
 - 🔍 Filter by All / Active / Completed / Overdue
-- 📊 Live task stats — total, active, completed, overdue
+- 📊 Live task stats - total, active, completed, overdue
 - 💨 Smooth loading skeletons, toasts, and empty states
 - 📱 Fully responsive gradient-based design, no UI framework dependency
 
@@ -136,7 +136,7 @@ npm run dev      # native Node --watch, auto-restarts on changes
 npm start        # plain node, for production
 ```
 
-Server starts on `http://localhost:8000` — check `http://localhost:8000/health`, should return `{"status":"ok","dbConnected":true}`.
+Server starts on `http://localhost:8000` - check `http://localhost:8000/health`, should return `{"status":"ok","dbConnected":true}`.
 
 ### 3. Frontend setup
 
