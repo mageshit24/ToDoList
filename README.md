@@ -172,22 +172,22 @@ Opens on `http://localhost:3000`.
 
 ## 🔒 Security
 
-- **Helmet** — standard HTTP security headers (CSP, HSTS, no-sniff)
-- **Rate limiting** — 300 requests / 15 min per IP on `/todos`
-- **Input sanitization** — `express-mongo-sanitize` blocks NoSQL operator injection; explicit type/length checks on all inputs
-- **CORS allowlisting** — fails closed in production if `ALLOWED_ORIGINS` isn't set
-- **No secrets in git** — `.env` files are gitignored; `.env.example` provides the template
+- **Helmet** - standard HTTP security headers (CSP, HSTS, no-sniff)
+- **Rate limiting** - 300 requests / 15 min per IP on `/todos`
+- **Input sanitization** - `express-mongo-sanitize` blocks NoSQL operator injection; explicit type/length checks on all inputs
+- **CORS allowlisting** - fails closed in production if `ALLOWED_ORIGINS` isn't set
+- **No secrets in git** - `.env` files are gitignored; `.env.example` provides the template
 
 ## ☁️ Deployment
 
-**Backend (Render)** — environment variables required:
+**Backend (Render)** - environment variables required:
 ```
 MONGODB_URI=<your connection string>
 NODE_ENV=production
 ALLOWED_ORIGINS=https://your-site-name.netlify.app
 ```
 
-**Frontend (Netlify)** — environment variable required:
+**Frontend (Netlify)** - environment variable required:
 ```
 VITE_API_URL=https://your-backend.onrender.com
 ```
