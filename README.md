@@ -65,7 +65,7 @@
 
 | Layer | Technology |
 |---|---|
-| Frontend | React (Create React App), custom CSS |
+| Frontend | React (Vite), custom CSS |
 | Backend | Node.js, Express, Mongoose |
 | Database | MongoDB Atlas |
 | Security | Helmet, express-rate-limit, express-mongo-sanitize, CORS allowlisting |
@@ -143,13 +143,13 @@ cp .env.example .env
 Fill in `frontend/.env`:
 
 ```env
-REACT_APP_API_URL=http://localhost:8000
+VITE_API_URL=http://localhost:8000
 ```
 
 Run it:
 
 ```bash
-npm start
+npm run dev
 ```
 
 Opens on `http://localhost:3000`.
@@ -183,9 +183,9 @@ ALLOWED_ORIGINS=https://your-site-name.netlify.app
 
 **Frontend (Netlify)** - environment variable required:
 ```
-REACT_APP_API_URL=https://your-backend.onrender.com
+VITE_API_URL=https://your-backend.onrender.com
 ```
-Build command: `npm run build` · Publish directory: `build`
+Build command: `npm run build` · Publish directory: `dist`
 
 ## 🧪 Scripts
 
@@ -204,8 +204,9 @@ Build command: `npm run build` · Publish directory: `build`
 
 | Command | Description |
 |---|---|
-| `npm start` | Dev server |
+| `npm run dev` | Dev server |
 | `npm run build` | Production build |
+| `npm run preview` | Preview the production build locally |
 
 </td>
 </tr>

@@ -10,7 +10,7 @@ node_modules/
 !.env.example
 
 # ---- Build output ----
-frontend/build/
+frontend/dist/
 dist/
 
 # ---- Logs ----

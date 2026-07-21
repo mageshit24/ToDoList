@@ -106,16 +106,70 @@ app.use((req, res, next) => {
 // fixes, so they're intentionally left out.
 mongoose.set('strictQuery', true);
 
+// --- DNS resolver override ------------------------------------------------
+// Atlas connection strings (mongodb+srv://) resolve via a DNS SRV record
+// lookup (_mongodb._tcp.<cluster>...). On some Windows setups, routers, VPNs,
+// or ISP DNS servers, that specific record type gets dropped or refused even
+// though normal DNS (A/AAAA) works fine — that's the 'querySrv ECONNREFUSED'
+// error. Rather than requiring every developer running this project to change
+// their OS-wide DNS settings, point Node's resolver at public DNS servers
+// (Google/Cloudflare) that reliably support SRV lookups, just for this process.
+// Override with DNS_SERVERS="1.1.1.1,1.0.0.1" in .env if you'd rather use
+// different resolvers, or leave it unset to skip this entirely.
+if (process.env.DNS_SERVERS !== 'off') {
+  try {
+    const dns = require('dns');
+    const servers = (process.env.DNS_SERVERS || '8.8.8.8,8.8.4.4,1.1.1.1')
+      .split(',').map(s => s.trim()).filter(Boolean);
+    dns.setServers(servers);
+    console.log(`Using DNS resolvers: ${servers.join(', ')}`);
+  } catch (err) {
+    console.warn('Could not override DNS resolvers, continuing with OS defaults:', err.message);
+  }
+}
+
 let isDbConnected = false; // tracked separately so /health can report it even mid-reconnect
 
-mongoose.connect(process.env.MONGODB_URI, {
-  serverSelectionTimeoutMS: 10000, // fail fast instead of hanging requests forever
-})
-  .then(() => {
+// --- Connect with retry -----------------------------------------------------
+// A single failed connect() attempt (e.g. a transient DNS hiccup or Atlas
+// cold start) shouldn't leave the server permanently disconnected until a
+// manual restart. Retry a handful of times with increasing delay, then give
+// up loudly — the /todos route guard below returns 503 in the meantime,
+// so the API stays up and honest about its state rather than crashing.
+const MAX_RETRIES = 5;
+
+async function connectWithRetry(attempt = 1) {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 10000, // fail fast per attempt instead of hanging requests forever
+    });
     isDbConnected = true;
     console.log('MongoDB connected');
-  })
-  .catch(err => console.error('MongoDB connection error:', err));
+  } catch (err) {
+    console.error(`MongoDB connection error (attempt ${attempt}/${MAX_RETRIES}):`, err.message);
+
+    // Specifically call out the SRV/DNS failure with an actionable hint, since
+    // it's the most common local-dev failure mode and the raw error message
+    // alone doesn't tell you what to actually do about it.
+    if (err.code === 'ECONNREFUSED' && err.syscall === 'querySrv') {
+      console.error(
+        '  ↳ This looks like a DNS SRV lookup failure, common on some networks/VPNs.\n' +
+        '    Already retrying with Google/Cloudflare DNS. If it keeps failing, try the\n' +
+        '    non-SRV "Standard connection string" from Atlas → Connect → Drivers instead.'
+      );
+    }
+
+    if (attempt < MAX_RETRIES) {
+      const delayMs = attempt * 3000; // 3s, 6s, 9s, 12s... simple linear backoff
+      console.log(`Retrying MongoDB connection in ${delayMs / 1000}s...`);
+      setTimeout(() => connectWithRetry(attempt + 1), delayMs);
+    } else {
+      console.error('MongoDB connection failed after multiple attempts. The API will keep running and retry on the next request cycle via /health checks, but /todos routes will return 503 until it connects.');
+    }
+  }
+}
+
+connectWithRetry();
 
 mongoose.connection.on('disconnected', () => {
   isDbConnected = false;

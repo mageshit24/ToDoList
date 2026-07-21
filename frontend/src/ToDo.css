@@ -3,39 +3,45 @@
  * Prefixed with "th-" (ToDo) throughout to avoid clashing with any global
  * class names, since this project has no CSS-modules/scoping set up.
  * Relies on the color/spacing/shadow variables defined in index.css.
+ * Design language: glassmorphism — frosted translucent panels with
+ * backdrop-filter blur, soft borders, layered depth.
  */
 
 /* ---------- Header ---------- */
 .th-header {
     text-align: center;
     color: #fff;
-    margin-bottom: 28px;
+    margin-bottom: 32px;
 }
 
 .th-badge {
     display: inline-block;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    background: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
     padding: 5px 12px;
     border-radius: 999px;
-    margin-bottom: 14px;
+    margin-left: 8px;
+    vertical-align: middle;
 }
 
 .th-header h1 {
-    margin: 0 0 6px;
-    font-size: 34px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    margin: 6px 0 8px;
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    text-shadow: 0 2px 24px rgba(49, 20, 110, 0.25);
 }
 
 .th-header p {
     margin: 0;
     font-size: 15px;
-    opacity: 0.85;
+    color: rgba(255, 255, 255, 0.82);
 }
 
 /* ---------- Toast ---------- */
@@ -44,7 +50,9 @@
     top: 18px;
     right: 18px;
     z-index: 50;
-    background: var(--surface);
+    background: var(--glass-strong);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     color: var(--success);
     border: 1px solid var(--success-bg);
     box-shadow: var(--shadow-lg);
@@ -71,7 +79,7 @@
 }
 
 .th-error-banner {
-    background: var(--danger-bg);
+    background: rgba(254, 226, 226, 0.9);
     color: var(--danger);
     border: 1px solid #fecaca;
     border-radius: var(--radius-sm);
@@ -86,24 +94,30 @@
 
 /* ---------- Cards ---------- */
 .th-card {
-    background: var(--surface);
+    background: var(--glass-strong);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    padding: 24px;
-    margin-bottom: 20px;
+    box-shadow: var(--shadow-glass);
+    padding: 28px;
+    margin-bottom: 24px;
 }
 
 .th-card h3 {
-    margin: 0 0 16px;
+    margin: 0 0 18px;
     font-size: 17px;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 /* ---------- Form ---------- */
 .th-form-grid {
     display: grid;
     grid-template-columns: 1.2fr 1.4fr 1fr;
-    gap: 12px;
+    gap: 14px;
 }
 
 @media (max-width: 640px) {
@@ -124,18 +138,18 @@
     width: 100%;
     border: 1.5px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 10px 12px;
+    padding: 11px 13px;
     font-size: 14px;
     font-family: inherit;
     color: var(--text);
-    background: var(--surface-muted);
-    transition: border-color 0.15s, box-shadow 0.15s;
+    background: rgba(248, 247, 255, 0.7);
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
 }
 
 .th-input:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.14);
     background: #fff;
 }
 
@@ -145,7 +159,7 @@
 }
 
 .th-submit-row {
-    margin-top: 16px;
+    margin-top: 18px;
     display: flex;
     justify-content: flex-end;
 }
@@ -153,18 +167,18 @@
 .th-btn {
     border: none;
     border-radius: var(--radius-sm);
-    padding: 10px 20px;
+    padding: 11px 22px;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    transition: transform 0.1s, box-shadow 0.15s, background 0.15s;
+    transition: transform 0.12s, box-shadow 0.15s, background 0.15s;
 }
 
 .th-btn:active {
-    transform: scale(0.97);
+    transform: scale(0.96);
 }
 
 .th-btn:disabled {
@@ -176,15 +190,16 @@
 .th-btn-primary {
     background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     color: #fff;
-    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
 }
 
 .th-btn-primary:hover:not(:disabled) {
-    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.45);
+    box-shadow: 0 10px 26px rgba(99, 102, 241, 0.5);
+    transform: translateY(-1px);
 }
 
 .th-btn-ghost {
-    background: var(--surface-muted);
+    background: rgba(248, 247, 255, 0.9);
     color: var(--text);
     border: 1.5px solid var(--border);
 }
@@ -203,8 +218,8 @@
 }
 
 .th-btn-icon {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     padding: 0;
     border-radius: 999px;
     display: inline-flex;
@@ -212,65 +227,86 @@
     justify-content: center;
 }
 
+.th-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
 /* ---------- Stats ---------- */
 .th-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 16px;
+    gap: 12px;
+    margin-bottom: 18px;
 }
 
 .th-stat {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: var(--radius-sm);
-    padding: 12px 10px;
+    background: var(--glass);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 14px 10px;
     text-align: center;
-    box-shadow: var(--shadow);
+    transition: transform 0.15s, background 0.15s;
+}
+
+.th-stat:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .th-stat .th-stat-num {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 800;
-    color: var(--text);
+    color: #fff;
     line-height: 1.1;
 }
 
 .th-stat .th-stat-label {
     font-size: 11px;
     font-weight: 600;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.75);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
 }
 
 /* ---------- Filters ---------- */
 .th-filters {
     display: flex;
     gap: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     flex-wrap: wrap;
 }
 
 .th-filter-btn {
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
-    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--glass-border);
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     color: #fff;
-    padding: 7px 14px;
+    padding: 8px 16px;
     border-radius: 999px;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: background 0.15s, transform 0.12s;
 }
 
 .th-filter-btn:hover {
-    background: rgba(255, 255, 255, 0.24);
+    background: rgba(255, 255, 255, 0.26);
+}
+
+.th-filter-btn:active {
+    transform: scale(0.96);
 }
 
 .th-filter-btn.active {
     background: #fff;
     color: var(--primary-dark);
     border-color: #fff;
+    box-shadow: 0 6px 16px rgba(31, 25, 80, 0.2);
 }
 
 /* ---------- List ---------- */
@@ -284,23 +320,26 @@
 }
 
 .th-item {
-    background: var(--surface);
+    background: var(--glass-strong);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 16px 18px;
+    padding: 17px 19px;
     display: flex;
     align-items: flex-start;
     gap: 14px;
     animation: th-fade-in 0.2s ease-out;
-    transition: box-shadow 0.15s;
+    transition: box-shadow 0.15s, transform 0.15s;
 }
 
 .th-item:hover {
-    box-shadow: 0 4px 16px rgba(33, 31, 54, 0.12);
+    box-shadow: 0 10px 28px rgba(28, 26, 46, 0.14);
+    transform: translateY(-1px);
 }
 
 .th-item.completed {
-    opacity: 0.62;
+    opacity: 0.6;
 }
 
 @keyframes th-fade-in {
@@ -329,7 +368,11 @@
     margin-top: 2px;
     display: grid;
     place-content: center;
-    transition: border-color 0.15s, background 0.15s;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+}
+
+.th-checkbox:hover {
+    transform: scale(1.08);
 }
 
 .th-checkbox:checked {
@@ -338,10 +381,12 @@
 }
 
 .th-checkbox:checked::after {
-    content: '✓';
-    color: #fff;
-    font-size: 13px;
-    font-weight: 800;
+    content: '';
+    width: 6px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translate(-1px, -1px);
 }
 
 .th-item-body {
@@ -363,7 +408,7 @@
 .th-item-desc {
     font-size: 13.5px;
     color: var(--text-muted);
-    margin: 0 0 8px;
+    margin: 0 0 9px;
     word-break: break-word;
 }
 
@@ -380,13 +425,13 @@
     gap: 4px;
     font-size: 11.5px;
     font-weight: 600;
-    padding: 3px 9px;
+    padding: 4px 10px;
     border-radius: 999px;
 }
 
 .th-badge-deadline {
-    background: var(--surface-muted);
-    color: var(--text-muted);
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary-dark);
 }
 
 .th-badge-overdue {
@@ -415,12 +460,14 @@
 .th-empty {
     text-align: center;
     color: rgba(255, 255, 255, 0.9);
-    padding: 40px 20px;
+    padding: 48px 20px;
 }
 
 .th-empty .th-empty-icon {
-    font-size: 40px;
-    margin-bottom: 10px;
+    width: 44px;
+    height: 44px;
+    margin: 0 auto 14px;
+    opacity: 0.85;
 }
 
 .th-empty p {
@@ -437,11 +484,12 @@
 /* Animated gradient sweeping left-to-right to suggest "content is loading",
    shown in place of the list while the initial GET /todos is in flight. */
 .th-skeleton-item {
-    height: 64px;
+    height: 66px;
     border-radius: var(--radius);
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.35) 25%, rgba(255, 255, 255, 0.55) 37%, rgba(255, 255, 255, 0.35) 63%);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.28) 25%, rgba(255, 255, 255, 0.5) 37%, rgba(255, 255, 255, 0.28) 63%);
     background-size: 400% 100%;
     animation: th-shimmer 1.4s ease infinite;
+    border: 1px solid var(--glass-border);
 }
 
 @keyframes th-shimmer {

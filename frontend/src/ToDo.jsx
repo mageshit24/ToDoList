@@ -9,12 +9,14 @@
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { apiFetch } from "./api";
+import Clock from "./Clock";
+import DevToolsGuard from "./DevToolsGuard";
 import "./ToDo.css";
 
-// Configurable via .env (REACT_APP_API_URL) so the same code works against
+// Configurable via .env (VITE_API_URL) so the same code works against
 // a local backend in dev and the deployed one in prod, without editing source.
 // The trailing-slash strip means both "http://host" and "http://host/" work.
-const apiUrl = (process.env.REACT_APP_API_URL || "https://todolist-12qa.onrender.com").replace(/\/$/, "");
+const apiUrl = (import.meta.env.VITE_API_URL || "https://todolist-12qa.onrender.com").replace(/\/$/, "");
 
 // Filter tab definitions — single source of truth for both the button labels
 // and the switch statement in `visibleTodos` below.
@@ -36,6 +38,68 @@ function formatDeadline(value) {
         minute: "2-digit",
     });
 }
+
+// Small inline SVG icon set (stroke-based, ~lucide style) so the UI
+// doesn't depend on emoji rendering differently across OSes/fonts.
+// Each accepts standard SVG props via ...props for className etc.
+const IconCheck = (props) => (
+    <svg className="th-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <polyline points="20 6 9 17 4 12" />
+    </svg>
+);
+
+const IconAlertTriangle = (props) => (
+    <svg className="th-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
+        <line x1="12" y1="9" x2="12" y2="13" />
+        <line x1="12" y1="17" x2="12.01" y2="17" />
+    </svg>
+);
+
+const IconPlus = (props) => (
+    <svg className="th-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+    </svg>
+);
+
+const IconClipboard = (props) => (
+    <svg className="th-empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <rect x="8" y="2" width="8" height="4" rx="1" />
+        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+        <line x1="9" y1="12" x2="15" y2="12" />
+        <line x1="9" y1="16" x2="15" y2="16" />
+    </svg>
+);
+
+const IconCalendar = (props) => (
+    <svg className="th-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <rect x="3" y="4" width="18" height="18" rx="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+);
+
+const IconClock = (props) => (
+    <svg className="th-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
+    </svg>
+);
+
+const IconPencil = (props) => (
+    <svg className="th-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+    </svg>
+);
+
+const IconTrash = (props) => (
+    <svg className="th-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <polyline points="3 6 5 6 21 6" />
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+    </svg>
+);
 
 export default function Todo() {
     // --- "Add new item" form state ---
@@ -250,15 +314,21 @@ export default function Todo() {
         {/* Success toast — only rendered while `message` is set, auto-clears itself */}
         {message && (
             <div className="th-toast">
-                <span aria-hidden="true">✓</span> {message}
+                <IconCheck aria-hidden="true" /> {message}
             </div>
         )}
 
         {/* Page header */}
         <div className="th-header">
+            {/* Live date/time display, see Clock.js */}
+            <Clock />
             <span className="th-badge">MERN Stack</span>
             <h1>Your To-Do List</h1>
             <p>Stay on top of every deadline, one task at a time.</p>
+            {/* Right-click / DevTools shortcut blocker. Renders nothing —
+                purely a build-time on/off switch via VITE_DEVTOOLS_GUARD
+                in .env, no visible UI control. See DevToolsGuard.js. */}
+            <DevToolsGuard />
         </div>
 
         {/* Add-item form */}
@@ -278,10 +348,10 @@ export default function Todo() {
                     <input id="th-deadline" type="datetime-local" onChange={(e) => setDeadline(e.target.value)} value={deadline} className="th-input" disabled={submitting} />
                 </div>
             </div>
-            {error && <div className="th-error-banner">⚠ {error}</div>}
+            {error && <div className="th-error-banner"><IconAlertTriangle /> {error}</div>}
             <div className="th-submit-row">
                 <button className="th-btn th-btn-primary" onClick={handleSubmit} disabled={submitting}>
-                    {submitting ? "Saving…" : "＋ Add task"}
+                    {submitting ? "Saving…" : (<><IconPlus /> Add task</>)}
                 </button>
             </div>
         </div>
@@ -316,7 +386,7 @@ export default function Todo() {
             </div>
         ) : visibleTodos.length === 0 ? (
             <div className="th-empty">
-                <div className="th-empty-icon">🗒️</div>
+                <IconClipboard />
                 {/* Different message depending on whether there are truly no
                     todos at all, vs. just none matching the current filter. */}
                 <p>{todos.length === 0 ? "No tasks yet — add one above." : "Nothing here for this filter."}</p>
@@ -343,9 +413,9 @@ export default function Todo() {
                                     <p className="th-item-title">{item.title}</p>
                                     {item.description && <p className="th-item-desc">{item.description}</p>}
                                     <div className="th-meta-row">
-                                        <span className="th-badge th-badge-deadline">📅 {formatDeadline(item.deadline)}</span>
-                                        {item.isOverdue && <span className="th-badge th-badge-overdue">⏰ Overdue</span>}
-                                        {item.completed && <span className="th-badge th-badge-done">✓ Done</span>}
+                                        <span className="th-badge th-badge-deadline"><IconCalendar /> {formatDeadline(item.deadline)}</span>
+                                        {item.isOverdue && <span className="th-badge th-badge-overdue"><IconClock /> Overdue</span>}
+                                        {item.completed && <span className="th-badge th-badge-done"><IconCheck /> Done</span>}
                                     </div>
                                 </>
                             ) : (
@@ -360,8 +430,8 @@ export default function Todo() {
                         <div className="th-item-actions">
                             {editId === -1 || editId !== item._id ? (
                                 <>
-                                    <button className="th-btn th-btn-ghost th-btn-icon" onClick={() => handleEdit(item)} aria-label="Edit" title="Edit">✎</button>
-                                    <button className="th-btn th-btn-danger th-btn-icon" onClick={() => handleDelete(item._id)} aria-label="Delete" title="Delete">🗑</button>
+                                    <button className="th-btn th-btn-ghost th-btn-icon" onClick={() => handleEdit(item)} aria-label="Edit" title="Edit"><IconPencil /></button>
+                                    <button className="th-btn th-btn-danger th-btn-icon" onClick={() => handleDelete(item._id)} aria-label="Delete" title="Delete"><IconTrash /></button>
                                 </>
                             ) : (
                                 <>
