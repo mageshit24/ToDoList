@@ -8,6 +8,7 @@
 [![License: ISC](https://img.shields.io/badge/license-ISC-blue?style=for-the-badge)](#-license)
 
 ![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
@@ -23,33 +24,34 @@
 ## 📸 Preview
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/b2534f15-00d1-4b83-8d97-98b7b1279831" alt="ToDoList dashboard showing task list, stats, and filters" width="800"/>
-  <p><em>Main dashboard - stats bar, filter tabs, and task list</em></p>
+  <img src="https://github.com/user-attachments/assets/2a5e922f-59a3-4af1-9e02-6a2fbead1391" alt="ToDoList dashboard showing task list, stats, and filters" width="800"/>
+  <p><em>Main dashboard — stats bar, filter tabs, and task list</em></p>
 </div>
 
 <table>
   <tr>
     <td width="50%" align="center">
-      <img src="https://github.com/user-attachments/assets/873c32c6-6011-488c-a792-fab1856d5fbb" alt="Add task form" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/e88ea4d2-2ab7-4f29-81c7-9cd812d2b126" alt="Add task form" width="100%"/>
       <p><em>Adding a new task</em></p>
     </td>
     <td width="50%" align="center">
-      <img src="https://github.com/user-attachments/assets/cf8926a4-4a69-49b0-ad63-a35b13b6d44b" alt="Overdue task badge" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/0d7e3b35-36dd-4cdd-bded-89c0518976bf" alt="Overdue task badge" width="100%"/>
       <p><em>Overdue detection in action</em></p>
     </td>
   </tr>
   <tr>
     <td width="50%" align="center">
-      <img src="https://github.com/user-attachments/assets/e0bd11b9-7db1-4249-a72b-7c0027c16296" alt="Inline task editing" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/b27c1246-33ec-4caf-b83d-8da4ba1bc36b" alt="Inline task editing" width="100%"/>
       <p><em>Inline editing</em></p>
     </td>
     <td width="50%" align="center">
-      <img src="https://github.com/user-attachments/assets/110a6b53-570d-4957-bc73-2a01014fb026" alt="Mobile responsive view" width="220"/>
+      <img src="https://github.com/user-attachments/assets/34b62458-2926-49d0-8173-1d0af8ad8ad6" alt="Mobile responsive view" width="220"/>
       <p><em>Mobile view</em></p>
     </td>
   </tr>
 </table>
-```
+
+---
 
 ## ✨ Features
 
@@ -57,7 +59,7 @@
 - ✅ One-click complete/active toggle with optimistic UI updates
 - ⏰ Automatic overdue detection, computed server-side in real time
 - 🔍 Filter by All / Active / Completed / Overdue
-- 📊 Live task stats - total, active, completed, overdue
+- 📊 Live task stats — total, active, completed, overdue
 - 💨 Smooth loading skeletons, toasts, and empty states
 - 📱 Fully responsive gradient-based design, no UI framework dependency
 
@@ -65,7 +67,7 @@
 
 | Layer | Technology |
 |---|---|
-| Frontend | React (Vite), custom CSS |
+| Frontend | React 19 (Vite), custom CSS |
 | Backend | Node.js, Express, Mongoose |
 | Database | MongoDB Atlas |
 | Security | Helmet, express-rate-limit, express-mongo-sanitize, CORS allowlisting |
@@ -81,11 +83,15 @@ ToDoList/
 │   └── .env.example       # copy to .env and fill in real values
 ├── frontend/
 │   ├── src/
-│   │   ├── App.js
-│   │   ├── ToDo.js        # main feature component
+│   │   ├── App.jsx
+│   │   ├── ToDo.jsx        # main feature component
 │   │   ├── ToDo.css
-│   │   ├── api.js         # fetch wrapper with timeout handling
-│   │   └── index.js
+│   │   ├── Clock.jsx        # live header clock
+│   │   ├── DevToolsGuard.jsx
+│   │   ├── api.js          # fetch wrapper with timeout handling
+│   │   └── index.jsx
+│   ├── index.html
+│   ├── vite.config.js
 │   ├── package.json
 │   └── .env.example
 └── .gitignore
@@ -95,7 +101,7 @@ ToDoList/
 
 ### Prerequisites
 
-- Node.js ≥ 18
+- Node.js ≥ 20.19.0
 - npm
 - A MongoDB Atlas cluster (or local MongoDB instance)
 
@@ -125,7 +131,7 @@ ALLOWED_ORIGINS=http://localhost:3000
 Run it:
 
 ```bash
-npm run dev      # nodemon, auto-restarts on changes
+npm run dev      # native Node --watch, auto-restarts on changes
 # or
 npm start        # plain node, for production
 ```
@@ -166,22 +172,22 @@ Opens on `http://localhost:3000`.
 
 ## 🔒 Security
 
-- **Helmet** - standard HTTP security headers (CSP, HSTS, no-sniff)
-- **Rate limiting** - 300 requests / 15 min per IP on `/todos`
-- **Input sanitization** - `express-mongo-sanitize` blocks NoSQL operator injection; explicit type/length checks on all inputs
-- **CORS allowlisting** - fails closed in production if `ALLOWED_ORIGINS` isn't set
-- **No secrets in git** - `.env` files are gitignored; `.env.example` provides the template
+- **Helmet** — standard HTTP security headers (CSP, HSTS, no-sniff)
+- **Rate limiting** — 300 requests / 15 min per IP on `/todos`
+- **Input sanitization** — `express-mongo-sanitize` blocks NoSQL operator injection; explicit type/length checks on all inputs
+- **CORS allowlisting** — fails closed in production if `ALLOWED_ORIGINS` isn't set
+- **No secrets in git** — `.env` files are gitignored; `.env.example` provides the template
 
 ## ☁️ Deployment
 
-**Backend (Render)** - environment variables required:
+**Backend (Render)** — environment variables required:
 ```
 MONGODB_URI=<your connection string>
 NODE_ENV=production
 ALLOWED_ORIGINS=https://your-site-name.netlify.app
 ```
 
-**Frontend (Netlify)** - environment variable required:
+**Frontend (Netlify)** — environment variable required:
 ```
 VITE_API_URL=https://your-backend.onrender.com
 ```
@@ -197,7 +203,7 @@ Build command: `npm run build` · Publish directory: `dist`
 | Command | Description |
 |---|---|
 | `npm start` | Production mode |
-| `npm run dev` | Dev mode (nodemon) |
+| `npm run dev` | Dev mode (native `--watch`) |
 
 </td>
 <td>
